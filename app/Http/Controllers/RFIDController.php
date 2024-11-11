@@ -58,6 +58,7 @@ class RFIDController extends Controller
 
             $pusher->trigger('rfid-channel', 'rfid-channel', [
                 'status' => 404,
+                'rfid' => $cardUID,
                 'message' => 'RFID not recognized in the system!',
 
             ]);

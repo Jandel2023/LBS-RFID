@@ -34,11 +34,19 @@ class ProfileResource extends Resource
                     ->imageEditor()
                     ->downloadable()
                     ->image(),
+                Forms\Components\ViewField::make('view')
+                    ->view('filament.resources.view.js'),
                 Forms\Components\Fieldset::make('Personal Details')
                     ->columns(2)
                     ->schema([
                         Forms\Components\TextInput::make('rfid')
                             ->required()
+                            ->readOnly()
+                            ->suffixAction(
+                                \Filament\Forms\Components\Actions\Action::make('Scan')
+                                    ->color('gray')
+                                    ->icon(fn (Forms\Get $get) => $get('is_listening') ? 'heroicon-m-arrow-path' : 'heroicon-m-identification')
+                                    ->extraAttributes(fn (Forms\Get $get) => $get('is_listening') ? ['id' => 'uid-scan-btn', 'class' => 'animate-spin'] : ['id' => 'uid-scan-btn'], true))
                             ->maxLength(255),
                         Forms\Components\TextInput::make('first_name')
                             ->required()
