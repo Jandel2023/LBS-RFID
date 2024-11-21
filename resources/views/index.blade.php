@@ -344,23 +344,27 @@
                     document.getElementById('profilePicture').src = data.user.profile_img;
                 }
             }else{
-                Swal.fire({
-                    icon: 'error',
-                    title: "User Not Found!",
-                    denyButtonText: `Closed`
-                    }).then((result) => {
+                document.getElementById('section1').style.display = 'none';
+                document.getElementById('profile-container').style.display = 'none';
 
-                  if (result.isDenied) {
-                     window.location.reload();
-                    }
-                    })
+              Swal.fire({
+  icon: 'error',
+  title: "User Not Found!",
+  denyButtonText: 'Closed',
+//   showDenyButton: true,
+  timer: 5000, // Auto close after 5 seconds (5000ms)
+  timerProgressBar: true
+}).then((result) => {
+  if (result || result.dismiss === Swal.DismissReason.timer) {
+    window.location.reload();
+  }
+});
+
 
             }
         });
 
-        function cancelAction() {
-            location.reload();
-        }
+       
     </script>
 </head>
 
@@ -369,7 +373,7 @@
         <h1 class="title">Library System (RFID)</h1>
         <div class="loading-container">
             <div class="loading-spinner"></div>
-            <p class="loading-text">Waiting for network...</p>
+            <p class="loading-text">Waiting for card...</p>
         </div>
     </div>
 
@@ -388,7 +392,7 @@
                 <img id="profilePicture" alt="Profile Image" class="profile-image">
             </div>
             <div class="btn-container">
-                <button class="btn btn-cancel" onclick="cancelAction()">Cancel</button>
+                <a class="btn btn-cancel"  href="/">Cancel</a>
                 <button type="submit" class="btn btn-borrow" >Borrow</button>
             </div>
         </div>
@@ -407,15 +411,15 @@
       body: formData,
     }).then(response => response.json())
     .then(data => {
-      // console.log(data);
       if(data.message == 'borrow successfully!'){
+        document.getElementById('borrowForm').style.display = 'none';
         Swal.fire({
            icon: 'success',
            title: 'Borrow Successfully!',
            showConfirmButton: false,
            timer: 2500
        }).then(() => {
-        window.location.href = '/';
+        window.location.reload();
        });
       }
     });

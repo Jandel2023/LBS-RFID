@@ -5,6 +5,8 @@ namespace App\Filament\Resources\ProfileResource\Pages;
 use App\Filament\Resources\ProfileResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class EditProfile extends EditRecord
 {
@@ -18,5 +20,12 @@ class EditProfile extends EditRecord
             Actions\ForceDeleteAction::make(),
             Actions\RestoreAction::make(),
         ];
+    }
+
+    protected function handleRecordUpdate(Model $record, array $data): Model
+    {
+        $record->update(Arr::except($data, ['view']));
+
+        return $record;
     }
 }

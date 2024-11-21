@@ -27,7 +27,7 @@ class ProfileResource extends Resource
                 Forms\Components\FileUpload::make('profile_img')
                     ->label('Profile Image')
                     ->previewable()
-                    ->hiddenOn('view')
+                    // ->hiddenOn('view')
                     ->openable()
                     ->columnSpanFull()
                     ->imagePreviewHeight(200)
@@ -41,6 +41,7 @@ class ProfileResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('rfid')
                             ->required()
+                            ->unique(table: 'profiles', column: 'rfid', ignoreRecord: true)
                             ->readOnly()
                             ->suffixAction(
                                 \Filament\Forms\Components\Actions\Action::make('Scan')
@@ -101,6 +102,7 @@ class ProfileResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

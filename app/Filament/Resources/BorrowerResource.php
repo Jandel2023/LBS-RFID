@@ -25,15 +25,23 @@ class BorrowerResource extends Resource
                 Forms\Components\Select::make('profile_id')
                     ->required()
                     ->relationship(name: 'profile')
+                    ->preload()
                     ->live()
                     ->searchable(['last_name', 'first_name', 'middle_name'])
                     ->getOptionLabelFromRecordUsing(fn ($record) => $record?->full_name),
+                Forms\Components\DateTimePicker::make('created_at')
+                    ->label('Borrowed At')
+                    ->default(now())
+                    ->native(false)
+                    ->readonly(),
                 // ->numeric(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
+        $borrower = fn (Borrower $record) => $record->profile()->first() == null;
+
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('profile.profile_img')
@@ -42,10 +50,12 @@ class BorrowerResource extends Resource
                     ->circular(),
                 Tables\Columns\TextColumn::make('profile.rfid')
                     ->label('RFID')
-                    // ->numeric()
+                    ->default('Deleted')
+                    ->badge($borrower)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('profile.full_name')
-                    // ->numeric()
+                    ->default('Deleted')
+                    ->badge($borrower)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
@@ -68,6 +78,7 @@ class BorrowerResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
