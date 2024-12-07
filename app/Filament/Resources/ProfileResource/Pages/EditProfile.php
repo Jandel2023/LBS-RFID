@@ -16,9 +16,15 @@ class EditProfile extends EditRecord
     {
         return [
             Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->before(fn ($record) => $record->borrowers()->update([
+                    'status' => false,
+                ])),
             Actions\ForceDeleteAction::make(),
-            Actions\RestoreAction::make(),
+            Actions\RestoreAction::make()
+                ->before(fn ($record) => $record->borrowers()->update([
+                    'status' => true,
+                ])),
         ];
     }
 

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BorrowerResource\Pages;
 use App\Models\Borrower;
+use App\Models\Profile;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -26,7 +27,6 @@ class BorrowerResource extends Resource
                     ->required()
                     ->relationship(name: 'profile')
                     ->preload()
-                    ->live()
                     ->searchable(['last_name', 'first_name', 'middle_name'])
                     ->getOptionLabelFromRecordUsing(fn ($record) => $record?->full_name),
                 Forms\Components\DateTimePicker::make('created_at')
@@ -40,7 +40,7 @@ class BorrowerResource extends Resource
 
     public static function table(Table $table): Table
     {
-        $borrower = fn (Borrower $record) => $record->profile()->first() == null;
+        // $borrower = fn (Borrower $record) => $record->profile()->first() == null;
 
         return $table
             ->columns([
@@ -50,13 +50,13 @@ class BorrowerResource extends Resource
                     ->circular(),
                 Tables\Columns\TextColumn::make('profile.rfid')
                     ->label('RFID')
-                    ->default('Deleted')
-                    ->badge($borrower)
-                    ->sortable(),
+                    ->sortable()
+                    ->placeholder(fn ($record) => Profile::withTrashed()->find($record->profile_id)->rfid ?? 'Deleted'),
                 Tables\Columns\TextColumn::make('profile.full_name')
-                    ->default('Deleted')
-                    ->badge($borrower)
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Name')
+                    ->placeholder(fn ($record) => Profile::withTrashed()->find($record->profile_id)->full_name ?? 'Deleted'),
+                // ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -66,6 +66,11 @@ class BorrowerResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\IconColumn::make('status')
+                    // ->dateTime()
+                    ->boolean()
+                    // ->placeholder(fn ($record) => dd($record->status))
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

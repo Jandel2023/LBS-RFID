@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('borrowers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id');
+            $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

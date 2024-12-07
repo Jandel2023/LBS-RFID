@@ -415,7 +415,7 @@
         document.getElementById('borrowForm').style.display = 'none';
         Swal.fire({
            icon: 'success',
-           title: 'Borrow Successfully!',
+           title: 'Borrowed Successfully!',
            showConfirmButton: false,
            timer: 2500
        }).then(() => {
