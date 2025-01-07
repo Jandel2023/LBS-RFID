@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('borrower_id');
             $table->foreignId('book_id');
-            $table->boolean('refund')->default(true);
+            $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

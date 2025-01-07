@@ -31,9 +31,9 @@
           cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
         });
         
-        var channel = pusher.subscribe('rfid-channel');
+        var channel = pusher.subscribe('RFID-channel');
         
-        channel.bind('rfid-channel', function (data) {
+        channel.bind('RFID-channel', function (data) {
           if (data.status == 200) {
             stopListening();
           }else{
