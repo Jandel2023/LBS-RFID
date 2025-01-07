@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn\IconColumnSize;
 use Filament\Tables\Table;
 
 class BorrowersRelationManager extends RelationManager
@@ -57,7 +58,13 @@ class BorrowersRelationManager extends RelationManager
                     ->searchable(['name'])
                     // ->bulleted()
                     ->size(Tables\Columns\TextColumn\TextColumnSize::Medium)
-
+                    ->listWithLineBreaks(),
+                Tables\Columns\IconColumn::make('borrowed_books.status')
+                    ->label('Status')
+                    ->boolean()
+                    ->searchable(['status'])
+                // ->bulleted()
+                    ->size(IconColumnSize::Medium)
                     ->listWithLineBreaks(),
             ])
             // ->inverseRelationship('booked_books')

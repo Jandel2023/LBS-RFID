@@ -16,3 +16,5 @@ Route::get('/listOfBook/{id}', [RFIDController::class, 'listOfBooks']);
 Route::post('/borrow', [RFIDController::class, 'borrow']);
 
 Route::get('/searchBook/{id}', [BookController::class, 'show']);
+
+Route::post('/return', [BookController::class, 'update']);

@@ -1,4 +1,12 @@
-<div id="borrowedBooks" class="card">
+@extends('index')
+@section('content')
+
+@php
+  $start = ($books->currentPage() - 1) * $books->perPage() + 1;
+@endphp
+
+
+<div id="borrowedBooks" class="card" style="padding-top: 5%;">
   <div class="card-body">
     <h5 class="card-title">Books</h5>
 
@@ -7,7 +15,7 @@
       <input type="text" id="bookSearch" class="form-control" placeholder="Search books...">
     </div>
 
-    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+    <div>
       <table class="table text-nowrap align-middle mb-0" id="booksTable">
         <thead>
           <tr class="border-2 border-bottom border-primary border-0">
@@ -16,13 +24,13 @@
             <th scope="col">ISBN</th>
             <th scope="col" class="text-center">Author</th>
             <th scope="col" class="text-center">Category</th>
-            <th scope="col" class="text-center">Action</th>
+            <!-- <th scope="col" class="text-center">Action</th> -->
           </tr>
         </thead>
         <tbody class="table-group-divider">
           @foreach ($books as $book)
             <tr>
-              <th scope="row">{{++$i}}</th>
+              <th scope="row">{{$start++}}</th>
               <th scope="row" class="ps-0 fw-medium">
                 <span class="table-link1 text-truncate d-block"> {{$book->title}} </span>
               </th>
@@ -30,18 +38,27 @@
               <td class="text-center fw-medium">{{$book->author->full_name}}</td>
               <td class="text-center fw-medium">{{$book->category->name}}</td>
               <td class="text-center fw-medium"> 
-              
-      <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{$book->id}}">
-  Borrow
-        </a>
 
             </tr>
-            @include('layout_page.books.borrow_modal')
           @endforeach
         </tbody>
       </table>
   </div>
 </div>
+<div class="container mt-4">
+  <!-- Pagination -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      {{$books->links()}}
+    </ul>
+  </nav>
+
+  <!-- Total Count of Books -->
+  <div class="text-center mt-3">
+    <p>Total Books: {{ $bookTotal }}</p>
+  </div>
+</div>
+
 <!-- Button trigger modal -->
 
 <!-- JavaScript for Search Filtering -->
@@ -64,3 +81,4 @@
     });
   });
 </script>
+@endsection

@@ -14,3 +14,6 @@ Route::get('/login', fn () => redirect('admin'))->name('login');
 Route::get('/borrow', [RFIDController::class, 'borrow']);
 
 Route::get('/', [BookController::class, 'listBooks']);
+
+Route::get('/home', [BookController::class, 'home']);
+Route::resource('book', BookController::class);

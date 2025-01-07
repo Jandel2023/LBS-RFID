@@ -30,7 +30,10 @@ class BorrowedBooksRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('book.isbn')
                     ->bulleted(),
                 Tables\Columns\TextColumn::make('book.author.full_name'),
-                Tables\Columns\TextColumn::make('book.category.name'),            ])
+                Tables\Columns\TextColumn::make('book.category.name'),
+                Tables\Columns\IconColumn::make('status')
+                    ->boolean(),
+            ])
             ->filters([
                 //
             ])

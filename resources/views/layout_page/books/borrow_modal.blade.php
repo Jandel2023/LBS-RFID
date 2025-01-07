@@ -58,30 +58,32 @@
 
 
 <script>
-  document.getElementById('searchButton').addEventListener('click', function(event) {
-  // Prevent the default button behavior (form submission)
+ document.getElementById('searchButton').addEventListener('click', function(event) {
   event.preventDefault();
 
-  // Get the value entered in the search input
+  const searchButton = document.getElementById('searchButton');
+  searchButton.disabled = true;
+  searchButton.textContent = 'Searching...';
+
   const searchQuery = document.getElementById('searchInput').value;
 
-  // Perform your search operation here
-
-  // Example: Replace this with an actual search function
-  performSearch(searchQuery);
+  performSearch(searchQuery).finally(() => {
+    searchButton.disabled = false;
+    searchButton.textContent = 'Search';
+  });
 });
 
-// Example function for search
 function performSearch(query) {
-
   let messageSearch = 'Please provide isbn';
 
   if(query == '' || query == null){
+    searchButton.disabled = false;
+    searchButton.textContent = 'Search';
     document.getElementById('errorMessage').style.display = 'block';
     document.getElementById('errorMessage').textContent = messageSearch;
-    document.getElementById('submitBtn').disabled = true; // Disable save changes
+    document.getElementById('submitBtn').disabled = true;
   }else{
-    fetch(`/api/searchBook/${query}`, {
+    return fetch(`/api/searchBook/${query}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -93,7 +95,7 @@ function performSearch(query) {
     if(response.message == 'book not found!'){
       document.getElementById('errorMessage').style.display = 'block';
       document.getElementById('errorMessage').textContent = 'Book not found. Please try again!';
-      document.getElementById('submitBtn').disabled = true; // Disable save changes
+      document.getElementById('submitBtn').disabled = true;
     } else {
       document.getElementById('bookDisplay').style.display = 'block';
       document.getElementById('errorMessage').textContent = '';
@@ -104,16 +106,19 @@ function performSearch(query) {
 
       document.getElementById('bookId').value = response.book.id;
 
-      document.getElementById('submitBtn').disabled = false; // Enable save changes
+      document.getElementById('submitBtn').disabled = false;
     }
   });
   }
 }
 </script>
 <script>
-  document.getElementById('borrowedBook').addEventListener('submit', function (event){
-
+   document.getElementById('borrowedBook').addEventListener('submit', function (event){
     event.preventDefault();
+
+    const submitButton = document.getElementById('submitBtn');
+    submitButton.disabled = true; // Disable the button
+    submitButton.textContent = 'Loading...'; // Set loading text
 
     const formData = new FormData(this);
 
@@ -131,15 +136,19 @@ function performSearch(query) {
         document.getElementById('exampleModalCenter').style.display = 'none';
         document.body.classList.remove('modal-open');
         document.querySelector('.modal-backdrop').remove(); 
-        document.getElementById('borrowedBook').reset(); // Reset form
-        document.getElementById('bookDisplay').style.display = 'none'; // Hide book display
-        document.getElementById('submitBtn').disabled = true; // Disable save button
+        document.getElementById('borrowedBook').reset();
+        document.getElementById('bookDisplay').style.display = 'none';
+        submitButton.disabled = true; 
+        submitButton.textContent = 'Save changes'; // Reset button text
 
+        document.getElementById('searchInput').value = '';
         Swal.fire({
-  title: "Borrowed Successfully!",
-  // text: "You clicked the button!",
-  icon: "success"
-    });
+          title: "Borrowed Successfully!",
+          icon: "success"
+        });
+      } else {
+        submitButton.disabled = false; // Re-enable the button if an error occurs
+        submitButton.textContent = 'Save changes';
       }
     });
   });

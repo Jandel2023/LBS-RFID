@@ -28,7 +28,7 @@
               <span class="hide-menu"></span>
             </li>
             <li class="sidebar-item">
-  <a class="sidebar-link active" href="./index.html" aria-expanded="false">
+  <a class="sidebar-link" href="/home" aria-expanded="false">
     <span>
       <iconify-icon icon="solar:home-smile-bold-duotone" class="fs-6"></iconify-icon>
     </span>
@@ -41,11 +41,11 @@
               <span class="hide-menu">COMPONENTS</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+              <a class="sidebar-link" href="{{route('book.index')}}" aria-expanded="false">
                 <span>
                   <iconify-icon icon="solar:layers-minimalistic-bold-duotone" class="fs-6"></iconify-icon>
                 </span>
-                <span class="hide-menu">Buttons</span>
+                <span class="hide-menu">List of Books</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -110,7 +110,8 @@
         </nav>
       </header>
       <!--  Header End -->
-      @include('layout_page.dashboard_page')
+        @yield('content')
+      
     </div>
   </div>
   <script src="welcome_theme/assets/libs/jquery/dist/jquery.min.js"></script>
@@ -123,15 +124,45 @@
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
   <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const currentUrl = window.location.pathname.split("/").pop();
-    const sidebarLinks = document.querySelectorAll(".sidebar-link");
+  const sidebarLinks = document.querySelectorAll(".sidebar-link"); // Select all sidebar links
 
-    sidebarLinks.forEach(link => {
-      if (link.getAttribute("href") === currentUrl) {
-        link.classList.add("active");
-      }
+  // Function to remove active class from all links
+  function removeActiveClasses() {
+    sidebarLinks.forEach(link => link.classList.remove("active"));
+  }
+
+  // Loop through each sidebar link
+  sidebarLinks.forEach(link => {
+    link.addEventListener("click", function () {
+      // Remove 'active' class from all links first
+      removeActiveClasses();
+
+      // Add 'active' class to the clicked link
+      link.classList.add("active");
     });
   });
+
+  // Set the default active link based on the current URL
+  const currentUrl = window.location.pathname;
+  let isActiveSet = false;
+
+  sidebarLinks.forEach(link => {
+    if (link.getAttribute("href") === currentUrl) {
+      link.classList.add("active"); // Set active class if URL matches
+      isActiveSet = true;
+    }
+  });
+
+  // If no active link is set, set 'Home' as the default active link
+  // if (!isActiveSet) {
+  //   const homeLink = document.querySelector(".sidebar-link[href='/home']");
+  //   if (homeLink) {
+  //     homeLink.classList.add("active");
+  //   }
+  // }
+});
+
+
 </script>
 
 </body>

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\BorrowedBook;
+use App\Models\Profile;
 use Illuminate\Http\Request;
+use Pusher\Pusher;
 
 class BookController extends Controller
 {
@@ -13,6 +16,11 @@ class BookController extends Controller
     public function index()
     {
         //
+        $books = Book::with('author', 'category')->simplePaginate(5);
+
+        $bookTotal = Book::count();
+
+        return view('layout_page.books.list', compact('books', 'bookTotal'))->with('i', (request()->input('pages', 1) - 1) * 5);
     }
 
     /**
@@ -64,9 +72,69 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        //update book status
+        $data = $request->validate([
+            'book_id' => 'required',
+            'borrower_id' => 'required',
+        ]);
+
+        $userBorrow = BorrowedBook::where('borrower_id', $data['borrower_id'])
+            ->with('borrower.profile') // Eager load the 'profile' relationship
+            ->first();
+
+        $user = $userBorrow->borrower->profile;
+
+        // $user = Profile::findorFail($userId);
+        // dd($user->borrowers->first());
+        // dd($user->borrowers->first()->latest()->get());
+
+        $borrowedBook = BorrowedBook::where('book_id', $data['book_id'])->update([
+            'status' => false,
+        ]);
+
+        if ($borrowedBook) {
+            $pusher = new Pusher(
+                env('PUSHER_APP_KEY'),
+                env('PUSHER_APP_SECRET'),
+                env('PUSHER_APP_ID'),
+                [
+                    'cluster' => env('PUSHER_APP_CLUSTER'),
+                    'useTLS' => true,
+                ]
+            );
+
+            $payload = [
+                'message' => 'RFID detected!',
+                'status' => 200,
+                'user' => $user,
+                'borrower' => $user->borrowers->first(),
+            ];
+
+            $pusher->trigger('RFID-channel', 'RFID-channel', $payload);
+
+            return response()->json([
+                'message' => 'returned',
+            ]);
+        }
+
+        // dd($borrowedBook->borrower);
+
+        // dd($borrowedBook->borrower);
+        // $user = BorrowedBook::where('borrower_id', $data['borrower_id'])->with('borrower.profile');
+        // $user = $borrowedBook->with('borrower.profile');
+        // dd($user->borrower->profile);
+
+        // dd($borrowedBook);
+
+        // if ($borrowedBook) {
+        //     return response()->json([
+        //         'status' => 200,
+        //         'message' => 'returned',
+        //     ]);
+        // }
+
     }
 
     /**
@@ -79,9 +147,11 @@ class BookController extends Controller
 
     public function listBooks()
     {
+        return view('index');
+    }
 
-        $books = Book::with('author', 'category')->get();
-
-        return view('index', compact('books'))->with('i', (request()->input('pages', 1) - 1) * 5);
+    public function home()
+    {
+        return view('layout_page.dashboard_page');
     }
 }
