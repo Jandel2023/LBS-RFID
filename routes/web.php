@@ -1,12 +1,16 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\RFIDController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index');
-});
+// Route::get('/', function () {
+//     return view('index');
+// });
 
+// Route::get('/layout_page/dashboard_page.blade', [RFIDController::class, 'home'])->name('home');
 Route::get('/login', fn () => redirect('admin'))->name('login');
 
-Route::get('/borrow/{id}', [RFIDController::class, 'borrow']);
+Route::get('/borrow', [RFIDController::class, 'borrow']);
+
+Route::get('/', [BookController::class, 'listBooks']);

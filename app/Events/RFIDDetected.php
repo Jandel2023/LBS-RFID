@@ -2,11 +2,8 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -18,6 +15,7 @@ class RFIDDetected
      * Create a new event instance.
      */
     public $name;
+
     public $uid; // Add RFID UID
 
     public function __construct($name, $uid)
@@ -35,7 +33,7 @@ class RFIDDetected
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('rfid-channel'),
+            new PrivateChannel('RFID-channel'),
         ];
     }
 }

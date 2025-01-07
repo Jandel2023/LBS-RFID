@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProfileResource\Pages;
+use App\Filament\Resources\ProfileResource\RelationManagers\BorrowersRelationManager;
 use App\Models\Profile;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ProfileResource extends Resource
 {
     protected static ?string $model = Profile::class;
+
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
@@ -77,6 +80,7 @@ class ProfileResource extends Resource
                     ->circular(),
                 Tables\Columns\TextColumn::make('rfid')
                     ->label('RFID')
+                    ->copyable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('full_name')
                     ->searchable(),
@@ -120,6 +124,7 @@ class ProfileResource extends Resource
     {
         return [
             //
+            BorrowersRelationManager::class,
         ];
     }
 

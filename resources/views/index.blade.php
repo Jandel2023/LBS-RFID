@@ -1,429 +1,139 @@
-<!-- <!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-    <title>Library Monitoring System</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        div {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        h1 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        p {
-            font-size: 18px;
-            color: red;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
-    <script>
-        Pusher.logToConsole = true;
-
-        var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
-            cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
-        });
-
-        var channel = pusher.subscribe('rfid-channel');
-
-        channel.bind('rfid-channel', function(data) {
-
-            if (data.status == 200) {
-                document.getElementById('main-form').style.display = 'none';
-                document.getElementById('borrow-form').style.display = 'block';
-                
-            } else {
-                document.getElementById('main-form').style.display = 'block';
-                document.getElementById('borrow-form').style.display = 'none';
-                alert("The Card is not recognized in the system!");
-            }
-        });
-
-        channel.bind('pusher:subscription_error', function(status) {
-            console.error('Subscription error:', status);
-        });
-    </script>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RFID - Library System</title>
+  <!-- <link rel="shortcut icon" type="image/png" /> -->
+  <link rel="stylesheet" href="welcome_theme/assets/css/styles.min.css" />
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div id="main-form" style="display: block">
-        <h1>Library Monitoring System</h1>
-        <p>Please tap your RFID Card!</p>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div>
+    
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul id="sidebarnav">
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
+              <span class="hide-menu"></span>
+            </li>
+            <li class="sidebar-item">
+  <a class="sidebar-link active" href="./index.html" aria-expanded="false">
+    <span>
+      <iconify-icon icon="solar:home-smile-bold-duotone" class="fs-6"></iconify-icon>
+    </span>
+    <span class="hide-menu">Home</span>
+  </a>
+</li>
+
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
+              <span class="hide-menu">COMPONENTS</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                <span>
+                  <iconify-icon icon="solar:layers-minimalistic-bold-duotone" class="fs-6"></iconify-icon>
+                </span>
+                <span class="hide-menu">Buttons</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+                <span>
+                  <iconify-icon icon="solar:danger-circle-bold-duotone" class="fs-6"></iconify-icon>
+                </span>
+                <span class="hide-menu">Alerts</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./ui-card.html" aria-expanded="false">
+                <span>
+                  <iconify-icon icon="solar:bookmark-square-minimalistic-bold-duotone" class="fs-6"></iconify-icon>
+                </span>
+                <span class="hide-menu">Card</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./ui-forms.html" aria-expanded="false">
+                <span>
+                  <iconify-icon icon="solar:file-text-bold-duotone" class="fs-6"></iconify-icon>
+                </span>
+                <span class="hide-menu">Forms</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
+                <span>
+                  <iconify-icon icon="solar:text-field-focus-bold-duotone" class="fs-6"></iconify-icon>
+                </span>
+                <span class="hide-menu">Typography</span>
+              </a>
+            </li>
+            <li class="nav-small-cap">
+              <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-6" class="fs-6"></iconify-icon>
+              <span class="hide-menu"></span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{route('login')}}" aria-expanded="false">
+                <span>
+                  <iconify-icon icon="solar:login-3-bold-duotone" class="fs-6"></iconify-icon>
+                </span>
+                <span class="hide-menu">Login</span>
+              </a>
+            </li>
+          </ul>
+          
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <h1 class="text-center">RFID-Library System</h1>
+          
+        </nav>
+      </header>
+      <!--  Header End -->
+      @include('layout_page.dashboard_page')
     </div>
-    <div id="borrow-form" style="display: none;">
-        <form action="" method="POST">
-            @csrf
-            <input type="text" name="name" placeholder="Name" />
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+  </div>
+  <script src="welcome_theme/assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="welcome_theme/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="welcome_theme/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+  <script src="welcome_theme/assets/libs/simplebar/dist/simplebar.js"></script>
+  <script src="welcome_theme/assets/js/sidebarmenu.js"></script>
+  <script src="welcome_theme/assets/js/app.min.js"></script>
+  <script src="welcome_theme/assets/js/dashboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const currentUrl = window.location.pathname.split("/").pop();
+    const sidebarLinks = document.querySelectorAll(".sidebar-link");
 
-</body>
-
-</html> -->
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <style>
-        /* Global Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f8ff;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-        }
-
-        /* Centered Container */
-        .container {
-            text-align: center;
-        }
-
-        /* Blinking Title */
-        .title {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #2a9d8f;
-            margin-bottom: 30px;
-        }
-
-        /* Loading Animation */
-        .loading-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .loading-spinner {
-            width: 35px;
-            height: 35px;
-            border: 4px solid #2a9d8f;
-            border-top: 4px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        .loading-text {
-            padding-top: 15px;
-            font-size: 1.7rem;
-            color: #264653;
-            animation: blink 1.5s infinite;
-        }
-
-        /* Profile Card */
-        .profile-container {
-            display: none;
-            width: 100%;
-            max-width: 1000px;
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 50px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-            margin: 70px;
-        }
-
-        .profile-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        .profile-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .profile-details {
-            flex: 2;
-            min-width: 200px;
-        }
-
-        .profile-image {
-            width: 100%;
-            max-width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #2a9d8f;
-        }
-
-        .profile-title {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #2a9d8f;
-            margin-bottom: 10px;
-        }
-
-        .profile-subtitle {
-            font-size: 1rem;
-            color: #6c757d;
-            margin-bottom: 30px;
-        }
-
-        .profile-text {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            color: #333333;
-        }
-
-        .label {
-            font-weight: bold;
-            color: #264653;
-        }
-
-        .btn-container {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn-borrow {
-            background-color: #2a9d8f;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 8px;
-        }
-
-        .btn-cancel {
-            background-color: #e76f51;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 8px;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        @media (max-width: 768px) {
-            .profile-container {
-                padding: 20px;
-            }
-
-            .profile-content {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
-
-            .profile-details {
-                text-align: center;
-            }
-
-            .profile-title {
-                font-size: 1.8rem;
-            }
-
-            .profile-text {
-                font-size: 1rem;
-            }
-
-            .btn-container {
-                justify-content: center;
-                gap: 10px;
-            }
-        }
-
-        /* Blinking Animation */
-        @keyframes blink {
-            0%, 100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-        }
-
-        /* Spinner Animation */
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
-
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-    <script>
-        Pusher.logToConsole = true;
-
-        var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
-            cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
-        });
-
-        var channel = pusher.subscribe('rfid-channel');
-
-        channel.bind('rfid-channel', function (data) {
-            if (data.status == 200) {
-
-                // console.log(data.user.id);
-                document.getElementById('section1').style.display = 'none';
-                document.getElementById('profile-container').style.display = 'block';
-
-                document.getElementById('profile_id').value = data.user.id;
-                document.getElementById('rfid').textContent = data.user.rfid;
-                document.getElementById('full_name').textContent = data.user.full_name;
-                document.getElementById('email').textContent = data.user.email;
-
-                if (data.user.profile_img == null) {
-                    document.getElementById('profilePicture').src = 'storage/profile_default.png';
-                } else {
-                    document.getElementById('profilePicture').src = data.user.profile_img;
-                }
-            }else{
-                document.getElementById('section1').style.display = 'none';
-                document.getElementById('profile-container').style.display = 'none';
-
-              Swal.fire({
-  icon: 'error',
-  title: "User Not Found!",
-  denyButtonText: 'Closed',
-//   showDenyButton: true,
-  timer: 5000, // Auto close after 5 seconds (5000ms)
-  timerProgressBar: true
-}).then((result) => {
-  if (result || result.dismiss === Swal.DismissReason.timer) {
-    window.location.reload();
-  }
-});
-
-
-            }
-        });
-
-       
-    </script>
-</head>
-
-<body>
-    <div id="section1" class="container">
-        <h1 class="title">Library System (RFID)</h1>
-        <div class="loading-container">
-            <div class="loading-spinner"></div>
-            <p class="loading-text">Waiting for card...</p>
-        </div>
-    </div>
-
-    <form id="borrowForm">
-        <input type="hidden" id="profile_id" name="profile_id">
-        <div id="profile-container" class="profile-container">
-            <div class="profile-header">
-                <h2 class="profile-title">User Profile</h2>
-            </div>
-            <div class="profile-content">
-                <div class="profile-details">
-                    <p class="profile-text"><span class="label">RFID:</span> <span id="rfid"></span></p>
-                    <p class="profile-text"><span class="label">Name:</span> <span id="full_name"></span></p>
-                    <p class="profile-text"><span class="label">Email:</span> <span id="email"></span></p>
-                </div>
-                <img id="profilePicture" alt="Profile Image" class="profile-image">
-            </div>
-            <div class="btn-container">
-                <a class="btn btn-cancel"  href="/">Cancel</a>
-                <button type="submit" class="btn btn-borrow" >Borrow</button>
-            </div>
-        </div>
-    </form>
-</body>
-<script>
-    document.getElementById('borrowForm').addEventListener('submit', function(event){
-
-        event.preventDefault();
-        // console.log('meng');
-
-        const formData = new FormData(this);
-
-    fetch('/api/rfid_borrow', {
-      method: 'POST',
-      body: formData,
-    }).then(response => response.json())
-    .then(data => {
-      if(data.message == 'borrow successfully!'){
-        document.getElementById('borrowForm').style.display = 'none';
-        Swal.fire({
-           icon: 'success',
-           title: 'Borrowed Successfully!',
-           showConfirmButton: false,
-           timer: 2500
-       }).then(() => {
-        window.location.reload();
-       });
+    sidebarLinks.forEach(link => {
+      if (link.getAttribute("href") === currentUrl) {
+        link.classList.add("active");
       }
     });
-    });
+  });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
 </html>

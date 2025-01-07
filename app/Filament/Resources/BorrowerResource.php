@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BorrowerResource\Pages;
+use App\Filament\Resources\BorrowerResource\RelationManagers\BookBooksRelationManager;
+use App\Filament\Resources\BorrowerResource\RelationManagers\BorrowedBooksRelationManager;
 use App\Models\Borrower;
 use App\Models\Profile;
 use Filament\Forms;
@@ -16,6 +18,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BorrowerResource extends Resource
 {
     protected static ?string $model = Borrower::class;
+
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
@@ -50,10 +54,12 @@ class BorrowerResource extends Resource
                     ->circular(),
                 Tables\Columns\TextColumn::make('profile.rfid')
                     ->label('RFID')
+                    ->searchable()
                     ->sortable()
                     ->placeholder(fn ($record) => Profile::withTrashed()->find($record->profile_id)->rfid ?? 'Deleted'),
                 Tables\Columns\TextColumn::make('profile.full_name')
                     ->sortable()
+                    ->searchable(['first_name', 'last_name', 'middle_name'])
                     ->label('Name')
                     ->placeholder(fn ($record) => Profile::withTrashed()->find($record->profile_id)->full_name ?? 'Deleted'),
                 // ->toggleable(isToggledHiddenByDefault: true),
@@ -98,6 +104,8 @@ class BorrowerResource extends Resource
     {
         return [
             //
+            // BookBooksRelationManager::class,
+            BorrowedBooksRelationManager::class,
         ];
     }
 
