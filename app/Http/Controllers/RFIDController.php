@@ -46,7 +46,7 @@ class RFIDController extends Controller
 
             return response()->json([
                 'status' => 'User Found!',
-                'user' => $user,
+                'name' => $user->last_name.", ".$user->first_name,
             ], 200);
             // return view('borrow', compact('user'));
         } else {
@@ -70,6 +70,7 @@ class RFIDController extends Controller
 
             return response()->json([
                 'status' => 'User Not Found!',
+                'rfid'   => $cardUID,
                 'message' => 'No user associated with this RFID',
             ], 404);
         }
