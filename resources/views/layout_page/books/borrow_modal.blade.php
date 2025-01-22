@@ -49,7 +49,7 @@
           <input type="hidden" id="borrowerId" name="borrower_id">
           <input type="hidden" id="bookId" name="book_id">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" id="submitBtn" class="btn btn-primary" disabled>Save changes</button>
+          <button type="submit" id="submitBtn" class="btn btn-primary" disabled>Borrow</button>
         </div>
       </form>
     </div>
