@@ -122,28 +122,6 @@
         @include('layout_page.books.borrow_modal')
         @include('layout_page.books.return_modal')
 
-        <!-- JavaScript for Search Filtering -->
-
-
-
-
-        <!-- <script>
-            document.getElementById('borrowedBook').addEventListener('submit', function(event) {
-
-                event.preventDefault();
-
-                const formData = new FormData(this);
-                fetch('/api/borrow', {
-                    method: 'POST',
-                    body: formData,
-                }).then(response => {
-                    return response.json();
-                }).then(response => {
-                    console.log(response);
-                })
-
-            });
-        </script> -->
 
         <script>
             // Get the button, text, and loader elements
@@ -256,12 +234,12 @@
                             // Create action column content based on status
                             let action = isBorrowed ?
                                 `<button class="btn btn-warning btn-sm"
-               data-toggle="modal"
-               data-target="#returnModalCenter"
-               data-id="${response.borrowed.borrowed_books[i].book.id}"
-               data-title="${response.borrowed.borrowed_books[i].book.title}">
-          Return
-       </button>` :
+                                data-toggle="modal"
+                                data-target="#returnModalCenter"
+                                data-id="${response.borrowed.borrowed_books[i].book.id}"
+                                data-title="${response.borrowed.borrowed_books[i].book.title}">
+                            Return
+                        </button>` :
                                 '<span class="badge bg-danger">Returned</span>';
 
                             // Generate the table row
@@ -358,11 +336,11 @@
             const style = document.createElement('style');
             style.type = 'text/css';
             style.innerHTML = `
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-`;
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                `;
             document.head.appendChild(style);
         </script>
 

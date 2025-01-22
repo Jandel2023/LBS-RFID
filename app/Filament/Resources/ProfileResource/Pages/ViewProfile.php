@@ -15,22 +15,22 @@ class ViewProfile extends ViewRecord
 
     public $defaultAction = '';
 
-    // public function mount(int|string $record): void
-    // {
-    //     parent::mount($record);
+    public function mount(int|string $record): void
+    {
+        parent::mount($record);
 
-    //     if (
-    //         request()->query('new-borrower') == 'true' &&
-    //         $this->getRecord()->borrowers()->doesntExist()
-    //     ) {
-    //         $this->defaultAction = 'newBorrower';
-    //     }
-    // }
+        if (
+            request()->query('new-borrower') == 'true' &&
+            $this->getRecord()->borrowers()->doesntExist()
+        ) {
+            $this->defaultAction = 'newBorrower';
+        }
+    }
 
     protected function getHeaderActions(): array
     {
         return [
-            $this->newBorrower(),
+            // $this->newBorrower(),
             $this->borrowBook(),
             Actions\EditAction::make(),
         ];

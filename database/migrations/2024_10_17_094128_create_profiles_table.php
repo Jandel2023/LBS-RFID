@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('middle_name');
             $table->string('last_name');
             $table->string('rfid')->unique()->default('9-2-1997');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->softDeletes();
             $table->timestamps();
         });

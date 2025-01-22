@@ -86,10 +86,6 @@ class BookController extends Controller
 
         $user = $userBorrow->borrower->profile;
 
-        // $user = Profile::findorFail($userId);
-        // dd($user->borrowers->first());
-        // dd($user->borrowers->first()->latest()->get());
-
         $borrowedBook = BorrowedBook::where('book_id', $data['book_id'])->update([
             'status' => false,
         ]);
@@ -118,22 +114,6 @@ class BookController extends Controller
                 'message' => 'returned',
             ]);
         }
-
-        // dd($borrowedBook->borrower);
-
-        // dd($borrowedBook->borrower);
-        // $user = BorrowedBook::where('borrower_id', $data['borrower_id'])->with('borrower.profile');
-        // $user = $borrowedBook->with('borrower.profile');
-        // dd($user->borrower->profile);
-
-        // dd($borrowedBook);
-
-        // if ($borrowedBook) {
-        //     return response()->json([
-        //         'status' => 200,
-        //         'message' => 'returned',
-        //     ]);
-        // }
 
     }
 

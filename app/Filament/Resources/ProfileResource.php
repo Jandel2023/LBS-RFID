@@ -63,6 +63,7 @@ class ProfileResource extends Resource
                             ->maxLength(255),
                         Forms\Components\TextInput::make('email')
                             ->email()
+                            ->unique(table: 'profiles', column: 'email', ignoreRecord: true)
                             ->required()
                             ->maxLength(255),
                     ]),

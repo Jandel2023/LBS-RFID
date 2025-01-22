@@ -30,6 +30,10 @@ class CreateProfile extends CreateRecord
 
         $record->save();
 
+        $record->borrowers()->create([
+            'profile_id' => $record,
+        ]);
+
         return $record;
     }
 }
