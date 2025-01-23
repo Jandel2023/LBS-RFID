@@ -72,6 +72,7 @@ class BookResource extends Resource
                     ->alignCenter(),
                 // ->circular(),
                 Tables\Columns\TextColumn::make('isbn')
+                    ->copyable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),

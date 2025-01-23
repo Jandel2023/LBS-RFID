@@ -8,6 +8,7 @@ use Filament\Actions;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
+use Pusher\Pusher;
 
 class ViewProfile extends ViewRecord
 {
@@ -108,13 +109,35 @@ class ViewProfile extends ViewRecord
                     'book_id' => $data['book_id'],
                 ]);
 
-                $borrower->save();
+               $success =  $borrower->save();
 
                 Notification::make()
                     ->title('Borrowed Successfully!')
                     ->icon('heroicon-o-check-circle')
                     ->success()
                     ->send();
+            
+                if($success){
+                    $pusher = new Pusher(
+                        env('PUSHER_APP_KEY'),
+                        env('PUSHER_APP_SECRET'),
+                        env('PUSHER_APP_ID'),
+                        [
+                            'cluster' => env('PUSHER_APP_CLUSTER'),
+                            'useTLS' => true,
+                        ]
+                    );
+    
+                    $payload = [
+                        'message' => 'RFID detected!',
+                        'status' => 200,
+                        'user' => $record,
+                        'borrower' => $record->borrowers->first(),
+                    ];
+    
+                    $pusher->trigger('RFID-channel', 'RFID-channel', $payload);
+                }
+                
 
             });
     }
