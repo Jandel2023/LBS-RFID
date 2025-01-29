@@ -71,8 +71,7 @@
                 <div class="text-end">
                     <img style="display: none;" id="profilePicture" alt="Profile Image" class="rounded-circle"
                         width="200" height="200">
-                    <img src="https://via.placeholder.com/150" alt="Profile Image" id="profilePictureTemporary"
-                        class="rounded-circle" width="200" height="200">
+                    <img src="{{asset('welcome_theme/assets/images/profile/user-2.jpg')}}" alt="Profile Image" id="profilePictureTemporary" class="rounded-circle" width="200" height="200">
 
                 </div>
             </div>
@@ -177,7 +176,7 @@
                     document.getElementById('full_name').textContent = data.user.full_name;
                     document.getElementById('email').textContent = data.user.email;
 
-                    console.log(data.borrower.id);
+                    // console.log(data.borrower.id);
                     document.getElementById('borrowerId').value = data.borrower.id;
                     document.getElementById('book_borrower_input').value = data.borrower.id;
 
@@ -185,10 +184,11 @@
                     document.getElementById('borrowedBooks').style.display = 'block';
 
 
+                    console.log(data.user.profile_img);
                     if (data.user.profile_img == null) {
                         profilePicture.src = 'storage/profile_default.png';
                     } else {
-                        profilePicture.src = data.user.profile_img;
+                        profilePicture.src = 'storage/' + data.user.profile_img;
                     }
 
                     fetch(`/api/listOfBook/${data.user.id}`, {
