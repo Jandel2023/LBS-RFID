@@ -138,9 +138,9 @@ class BookController extends Controller
     public function bookISBN()
     {
 
-        $bookISBN = Book::pluck('isbn');
+        $borrowedBook = BorrowedBook::where('status', true)->pluck('book_id');
+        $bookISBN = Book::whereNotIn('id', $borrowedBook)->pluck('isbn');
 
-        // dd($bookISBN);
         return response()->json(
             [
                 'isbn' => $bookISBN,

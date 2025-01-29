@@ -190,6 +190,7 @@
                     } else {
                         profilePicture.src = 'storage/' + data.user.profile_img;
                     }
+                    
 
                     fetch(`/api/listOfBook/${data.user.id}`, {
                         method: 'GET',
@@ -269,8 +270,7 @@
                         
                     })
 
-                    // //Borrowed Book Lists
-
+                    // //Borrowed Book List
 
                 } else {
                     // document.getElementById('section1').style.display = 'none';

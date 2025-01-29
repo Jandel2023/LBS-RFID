@@ -15,10 +15,17 @@ class Profile extends Model
 
     public function getFullNameAttribute()
     {
-        $fullName = "{$this->last_name}, {$this->first_name}";
+        $lastName = ucfirst(strtolower($this->last_name));
+        $firstName = ucfirst(strtolower($this->first_name));
+
+        $fullName = "{$lastName}, {$firstName}";
         if (! empty($this->middle_name)) {
-            $fullName .= " {$this->middle_name[0]}.";
+            $middleName = ucfirst(strtolower($this->middle_name));
+
+            $fullName .= " {$middleName[0]}.";
         }
+
+        // $fullName = ucfirst(strtolower($fullName));
 
         return $fullName;
     }

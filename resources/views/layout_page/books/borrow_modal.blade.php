@@ -158,30 +158,51 @@ function performSearch(query) {
     });
   });
 </script>
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
 <script>
-  document.addEventListener('DOMContentLoaded', function (){
+    Pusher.logToConsole = true;
 
-    fetch('/api/bookIsbn', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      }
-    }).then(response => response.json())
-    .then(data => {
+var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+    cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+});
 
-      console.log(data);
-      if(Array.isArray(data.isbn)){
-        const dataList = document.getElementById('isbnList');
+var channel = pusher.subscribe('RFID-channel');
 
-        data.isbn.forEach( isbn => {
-          // console.log(isbn);
-          let option = document.createElement('option');
-          option.value = isbn;
-          // console.log(option.value);
-          dataList.appendChild(option);
-        });
-      }
-      // console.log(data.isbn);
-    });
-  });
+channel.bind('RFID-channel', function(data) {
+
+  console.log(data.status);
+  if(data.status == 200){
+
+    console.log(data);
+    // document.addEventListener('DOMContentLoaded', function (){
+    
+      fetch('/api/bookIsbn', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        }
+      }).then(response => response.json())
+      .then(res => {
+    
+        // console.log(res);
+
+        if(Array.isArray(res.isbn)){
+          const dataList = document.getElementById('isbnList');
+          dataList.innerHTML = '';
+    
+          res.isbn.forEach( isbn => {
+            // console.log(isbn);
+            let option = document.createElement('option');
+            option.value = isbn;
+            // console.log(option.value);
+            dataList.appendChild(option);
+          });
+        }
+        // console.log(data.isbn);
+      });
+    // });
+  }
+})
+
 </script>
