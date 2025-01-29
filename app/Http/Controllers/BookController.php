@@ -74,7 +74,7 @@ class BookController extends Controller
      */
     public function update(Request $request)
     {
-        //update book status
+        // update book status
         $data = $request->validate([
             'book_id' => 'required',
             'borrower_id' => 'required',
@@ -133,5 +133,18 @@ class BookController extends Controller
     public function home()
     {
         return view('layout_page.dashboard_page');
+    }
+
+    public function bookISBN()
+    {
+
+        $bookISBN = Book::pluck('isbn');
+
+        // dd($bookISBN);
+        return response()->json(
+            [
+                'isbn' => $bookISBN,
+            ]
+        );
     }
 }

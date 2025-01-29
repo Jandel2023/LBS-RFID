@@ -12,7 +12,12 @@
         <div class="modal-body">
           <!-- Search input and button -->
           <div class="input-group mb-3">
-            <input type="number" class="form-control mr-2" id="searchInput" placeholder="Search ISBN" style="width: 300px;">
+            <!-- <input type="number" list="isbnList"> -->
+            <input type="number" list="isbnList" class="form-control mr-2" id="search" placeholder="Search ISBN" style="width: 300px;">
+            <datalist id="isbnList">
+            <!-- <option value="1234567890"></option>
+            <option value="0987654321"></option> -->
+            </datalist>
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" id="searchButton" type="button">Search</button>
             </div>
@@ -65,7 +70,7 @@
   searchButton.disabled = true;
   searchButton.textContent = 'Searching...';
 
-  const searchQuery = document.getElementById('searchInput').value;
+  const searchQuery = document.getElementById('search').value;
 
   performSearch(searchQuery).finally(() => {
     searchButton.disabled = false;
@@ -141,7 +146,7 @@ function performSearch(query) {
         submitButton.disabled = true; 
         submitButton.textContent = 'Save changes'; // Reset button text
 
-        document.getElementById('searchInput').value = '';
+        document.getElementById('search').value = '';
         Swal.fire({
           title: "Borrowed Successfully!",
           icon: "success"
@@ -150,6 +155,33 @@ function performSearch(query) {
         submitButton.disabled = false; // Re-enable the button if an error occurs
         submitButton.textContent = 'Save changes';
       }
+    });
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function (){
+
+    fetch('/api/bookIsbn', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      }
+    }).then(response => response.json())
+    .then(data => {
+
+      console.log(data);
+      if(Array.isArray(data.isbn)){
+        const dataList = document.getElementById('isbnList');
+
+        data.isbn.forEach( isbn => {
+          // console.log(isbn);
+          let option = document.createElement('option');
+          option.value = isbn;
+          // console.log(option.value);
+          dataList.appendChild(option);
+        });
+      }
+      // console.log(data.isbn);
     });
   });
 </script>

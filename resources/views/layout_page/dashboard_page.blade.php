@@ -265,6 +265,8 @@
 
                         // console.log(response.borrowed.id);
                         // document.getElementById('borrowed_id').value = response.borrowed.id;
+
+                        
                     })
 
                     // //Borrowed Book Lists
