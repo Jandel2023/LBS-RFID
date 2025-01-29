@@ -91,16 +91,38 @@
         </div>
         <div id="borrowedBooks" class="card" style="display: none;">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="card-title mb-0">Borrowed</h5>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Borrow
-                        Book</button>
-                </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="card-title mb-0">Borrowed</h5>
+
+    <div class="d-flex gap-2">
+        <!-- Borrow Book Button -->
+        
+        <!-- Filter Dropdown Button -->
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter
+            </button>
+            <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                <a class="dropdown-item" href="#" data-filter="all">All</a>
+                <!-- <a class="dropdown-item" href="#" data-filter="overdue"></a> -->
+                <a class="dropdown-item" href="#" data-filter="returned">Returned</a>
+                <a class="dropdown-item" href="#" data-filter="borrowed">Not Returned</a>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Borrow Book</button>
+    </div>
+</div>
+
+<script>
+    
+</script>
+
                 <div class="mb-3" style="width: 30%;">
                     <input type="text" id="bookSearchList" class="form-control" placeholder="Search books...">
                 </div>
 
-                <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+                <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
                     <table class="table text-nowrap align-middle mb-0" id="bookList">
                         <thead>
                             <tr class="border-2 border-bottom border-primary border-0">
@@ -238,10 +260,11 @@
                                 data-toggle="modal"
                                 data-target="#returnModalCenter"
                                 data-id="${response.borrowed.borrowed_books[i].book.id}"
+                                data-filter="borrowed"
                                 data-title="${response.borrowed.borrowed_books[i].book.title}">
                             Return
                         </button>` :
-                                '<span class="badge bg-danger">Returned</span>';
+                                '<span class="badge bg-danger" data-filter="returned">Returned</span>';
 
                             // Generate the table row
                             let row = '<tr>' +
@@ -365,6 +388,27 @@
                     }
                 });
             });
+
+
+
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function () {
+        let rows = document.querySelectorAll('#bookList tbody tr');
+        let filter = this.getAttribute('data-filter');
+
+        rows.forEach(row => {
+            let actionCell = row.cells[5]; // Action column index
+            let actionFilter = actionCell.querySelector('[data-filter]')?.getAttribute('data-filter') || '';
+
+            if (filter === "all" || actionFilter === filter) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+});
+
         </script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
